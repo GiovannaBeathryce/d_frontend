@@ -1,0 +1,37 @@
+.res{
+    width: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color:rgba(209, 220, 227, 0.18); 
+    
+    h3{
+        width: 75%;
+        text-align: left;
+        color: #3D75BB;
+        font-size: 16px;
+        font-weight: 600;
+        font-style: italic;
+        margin: 4px;
+    }
+    .separator_bar{
+        width: 75%;
+        height: 1px;
+        background-color: rgba(#5D9CEC, 0.3);
+    }
+
+    .dates{
+        width: 75%;
+        margin-top: 13px;
+        font-style: italic;
+        font-weight: 400;
+        font-size: 16px;
+        text-align: left;
+        color: #5D9CEC;
+
+        p span{
+            font-weight: 600;
+        }
+    }
+}

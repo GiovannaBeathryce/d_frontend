@@ -2,15 +2,25 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup';
 import Schema from '../../validators';
 import './style.scss'
+import api from '../../services/axios';
 
-const FormContainer = () => {
+const FormContainer = ({setValues}) => {
 
-    const { register, handleSubmit, formState:{errors} } = useForm({
+    const { register, handleSubmit, reset, formState:{errors} } = useForm({
         resolver: yupResolver(Schema)
     })
 
-    const registerData = (data) => {
-        console.log(data);
+    const registerData = async(data) => {
+        let d = data.days
+        d === ''?
+            d= [1, 15, 30, 60, 90] 
+        :
+            d = d.split(',')
+            d = d.map(i => parseInt(i))
+            data.days = d
+        
+        await api.post('/', data).then(res => setValues(res.data));
+        reset()
     }
 
     return(
@@ -25,16 +35,23 @@ const FormContainer = () => {
 
                 <label htmlFor='installments'>
                     Em quantas parcelas *
-                    <input id='installments' type='number' {...register('installments')} ></input>
+                    <input id='installments' type='number' placeholder='Ex: 3' {...register('installments')} ></input>
                     <p className='err'>{errors.installments?.message}</p>
                 </label>
 
                 <label htmlFor='mdr'>
                     Informe o percentual MDR *
-                    <input id='mdr' type='text' {...register('mdr')}></input>
+                    <input id='mdr' type='text' placeholder='Ex: 1.43' {...register('mdr')}></input>
                     <p className='err'>{errors.mdr?.message}</p>
                 </label>
+
                 
+                <label htmlFor='days'>
+                    Em quantos dias deseja receber
+                    <input id='days' type='array' placeholder='Ex: 1, 10, 20 ...' {...register('days')}></input>
+                    <p className='message'>Para simular mais de um prazo, separe-os com  "," </p>
+                    <p className='err'>{errors.mdr?.message}</p>
+                </label>
                 <button>Calcular</button>
                 </form>
         </section>
